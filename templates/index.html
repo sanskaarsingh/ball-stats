@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="mb-8">
+    <div class="glass-card rounded-xl p-6 mb-8">
+        <h1 class="text-3xl font-bold text-white mb-2">Matches</h1>
+        <p class="text-primary-400">Upcoming Matches (Next 7 Days)</p>
+    </div>
+    
+    {% if not competitions %}
+        <div class="glass-card rounded-xl p-6 text-center">
+            <p class="text-gray-400">No matches scheduled in the next week.</p>
+        </div>
+    {% endif %}
+    
+    {% for competition in competitions %}
+        <div class="glass-card rounded-xl p-6 mb-8">
+            <div class="flex items-center mb-6">
+                <img src="{{ competition.competition.emblem }}" alt="{{ competition.competition.name }}" class="h-10 w-10 mr-4">
+                <h2 class="text-2xl font-semibold text-white">
+                    {{ leagues[competition.competition.code]['name'] }} 
+                    <span class="text-sm text-primary-300 ml-2">({{ leagues[competition.competition.code]['country'] }})</span>
+                </h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for match in competition.matches %}
+                    <div class="glass-card rounded-xl p-6 hover:shadow-2xl transition duration-500 border-l-4 border-primary-500">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-sm text-gray-400">
+                                {{ match.utcDate|datetimeformat }}
+                            </span>
+                            <span class="px-2 py-1 text-xs rounded 
+                                {% if match.status == 'FINISHED' %}bg-red-900/70 text-red-200
+                                {% elif match.status == 'IN_PLAY' %}bg-green-900/70 text-green-200
+                                {% elif match.status == 'PAUSED' %}bg-yellow-900/70 text-yellow-200
+                                {% else %}bg-dark-600 text-gray-300{% endif %}">
+                                {{ match.status|replace('_', ' ')|title }}
+                            </span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div class="flex-1 text-right pr-4">
+                                <p class="font-medium">{{ match.homeTeam.shortName or match.homeTeam.name }}</p>
+                                {% if match.score and match.score.fullTime and match.score.fullTime.home is not none %}
+                                    <p class="text-2xl font-bold">{{ match.score.fullTime.home }}</p>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="text-gray-400 mx-2">vs</div>
+                            
+                            <div class="flex-1 text-left pl-4">
+                                <p class="font-medium">{{ match.awayTeam.shortName or match.awayTeam.name }}</p>
+                                {% if match.score and match.score.fullTime and match.score.fullTime.away is not none %}
+                                    <p class="text-2xl font-bold">{{ match.score.fullTime.away }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        {% if match.status == 'IN_PLAY' or match.status == 'PAUSED' %}
+                            <div class="mt-3 pt-3 border-t border-gray-700 text-center text-sm text-gray-400">
+                                <i class="fas fa-clock mr-1"></i> 
+                                {% if match.minute %}{{ match.minute }}'{% endif %}
+                                {% if match.status == 'PAUSED' %}(HT){% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

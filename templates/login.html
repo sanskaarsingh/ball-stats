@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="min-h-screen flex flex-col">
+    <div class="flex-grow flex items-center justify-center">
+        <div class="max-w-md w-full glass-card rounded-xl p-8">
+            <h1 class="text-3xl font-bold text-white mb-6 text-center">Login</h1>
+            <form method="POST" action="">
+                <div class="mb-4">
+                    <label class="block text-gray-300 text-sm font-bold mb-2" for="username">
+                        Username
+                    </label>
+                    <input class="bg-dark-700 w-full py-2 px-3 text-gray-200 rounded focus:outline-none focus:shadow-outline" 
+                           id="username" type="text" name="username" required>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-300 text-sm font-bold mb-2" for="password">
+                        Password
+                    </label>
+                    <input class="bg-dark-700 w-full py-2 px-3 text-gray-200 rounded focus:outline-none focus:shadow-outline" 
+                           id="password" type="password" name="password" required>
+                </div>
+                <div class="flex items-center justify-between">
+                    <button class="bg-primary-500 hover:bg-primary-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
+                            type="submit">
+                        Sign In
+                    </button>
+                    <a class="inline-block align-baseline font-bold text-sm text-primary-400 hover:text-primary-300" href="{{ url_for('register') }}">
+                        Need an account?
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ball Stats</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            900: '#0e0f11',
+                            800: '#1a1c1f',
+                            700: '#222428',
+                            600: '#2e3035',
+                            500: '#3c3f45'
+                        },
+                        primary: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        },
+                        gray: {
+                            100: '#f5f5f5',
+                            200: '#e5e5e5',
+                            300: '#d4d4d4',
+                            400: '#a3a3a3',
+                            500: '#737373',
+                            600: '#525252',
+                            700: '#404040',
+                            800: '#262626',
+                            900: '#171717'
+                        },
+                        accent: {
+                            400: '#14b8a6',
+                            500: '#0ea5e9',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Sora', 'Outfit', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)),
+                      url('https://w.wallhaven.cc/full/0j/wallhaven-0j5omy.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+  }
+        
+        .glass-card {
+            background: rgba(26, 28, 31, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+        }
+        
+        .glass-nav {
+            background: rgba(26, 28, 31, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="text-gray-100">
+    <nav class="glass-nav shadow-lg">
+    <div class="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-20">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <img class="h-12 w-auto" src="/static/images/logo.png" alt="Ball Stats Logo">
+                </div>
+                <div class="hidden md:block ml-10">
+                    <div class="flex space-x-4">
+                        <a href="/" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 transition duration-300 {{ 'bg-gray-700' if request.path == '/' else '' }}">Matches</a>
+                        <a href="/standings" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 transition duration-300 {{ 'bg-gray-700' if request.path == '/standings' else '' }}">Standings</a>
+                        <a href="/news" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 transition duration-300 {{ 'bg-gray-700' if request.path == '/news' else '' }}">News</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hidden md:block">
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('logout') }}" class="ml-4 px-3 py-2 rounded-md text-sm font-medium bg-red-500 hover:bg-red-600 transition duration-300">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 transition duration-300">Login</a>
+                    <a href="{{ url_for('register') }}" class="ml-4 px-3 py-2 rounded-md text-sm font-medium bg-primary-500 hover:bg-primary-600 transition duration-300">Register</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
+
+<main class="max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 fade-in">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="glass-card mb-4 p-4 text-center text-sm 
+                    {% if category == 'success' %}text-green-400
+                    {% elif category == 'danger' %}text-red-400
+                    {% else %}text-gray-400{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    {% block content %}{% endblock %}
+</main>
+
+    <footer class="glass-nav py-4 mt-auto">
+        <div class="max-w-full mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-400 text-sm">
+            <p>Ball Stats&copy; 2025 - Data provided by Football Data API and NewsAPI</p>
+            
+        </div>
+    </footer>
+</div>
+</body>
+</html>

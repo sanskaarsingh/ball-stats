@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="mb-8">
+    <div class="glass-card rounded-xl p-6 mb-8">
+        <h1 class="text-3xl font-bold text-white mb-2">Football News</h1>
+        <p class="text-primary-400">Latest Updates from Around the World</p>
+    </div>
+    
+    {% if not articles %}
+        <div class="glass-card rounded-xl p-6 text-center">
+            <p class="text-gray-400">No news available at the moment.</p>
+        </div>
+    {% endif %}
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for article in articles %}
+            <div class="glass-card rounded-xl overflow-hidden hover:shadow-2xl transition duration-500">
+                {% if article.urlToImage %}
+                    <img src="{{ article.urlToImage }}" alt="{{ article.title }}" class="w-full h-48 object-cover">
+                {% else %}
+                    <div class="w-full h-48 bg-dark-600 flex items-center justify-center">
+                        <i class="fas fa-newspaper text-4xl text-gray-500"></i>
+                    </div>
+                {% endif %}
+                
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-xs text-gray-400">{{ article.source.name }}</span>
+                        <span class="text-xs text-gray-400">{{ article.publishedAt|datetimeformat('%b %d, %Y') }}</span>
+                    </div>
+                    
+                    <h3 class="text-lg font-semibold mb-2 text-white">{{ article.title }}</h3>
+                    <p class="text-sm text-gray-400 mb-4 line-clamp-3">{{ article.description }}</p>
+                    
+                    <a href="{{ article.url }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-primary-400 hover:text-primary-300 text-sm font-medium">
+                        Read more <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
