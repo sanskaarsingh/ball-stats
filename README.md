@@ -3,7 +3,11 @@
 
 A modern, responsive football statistics dashboard with live matches, league standings, and news.
 
-![Dashboard Screenshot](static/images/screenshot.png)
+![Dashboard Screenshot](static/images/screenshot-5.png)
+![Dashboard Screenshot](static/images/screenshot-4.png)
+![Dashboard Screenshot](static/images/screenshot-3.png)
+![Dashboard Screenshot](static/images/screenshot-2.png)
+![Dashboard Screenshot](static/images/screenshot-1.png)
 
 ## Features
 
