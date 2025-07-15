@@ -106,7 +106,7 @@
                     </div>
                 </div>
             </div>
-            
+            <!-- Add these login/register buttons -->
             <div class="hidden md:block">
                 {% if current_user.is_authenticated %}
                     <a href="{{ url_for('logout') }}" class="ml-4 px-3 py-2 rounded-md text-sm font-medium bg-red-500 hover:bg-red-600 transition duration-300">Logout</a>
